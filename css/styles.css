@@ -1,93 +1,38 @@
-/* =========================================================
-   PROYECTO FLOR PRIMAVERAL — estilos
-   PRUEBA: fondo negro + glow naranja-amarillo al jalar,
-   lámpara centrada, sin texto. Dos escenas:
-     0) lámpara centrada
-     1) composición floral (cabeza + polen)
-   ========================================================= */
+  :root{ color-scheme:dark; }
+  html,body{ height:100%; margin:0; }
+  body{ background:#000; overflow:hidden;
+    font-family:"Helvetica Neue",Arial,sans-serif; color:#ffb64a; }
+  #c{ position:fixed; inset:0; display:block; z-index:1; }
 
-:root{
-  --bg:        #000000;      /* negro */
-  --glow:      #ffb64a;      /* naranja cálido */
-  --glow-hot:  #ffd77a;      /* amarillo brillante */
-  --glow-core: #fff0c8;      /* corazón del destello */
-  color-scheme: dark;
-}
+  /* ---------- INTRO (estilo "magic text") ---------- */
+  #intro{
+    position:fixed; inset:0; z-index:10;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:#000; transition:opacity .9s ease;
+  }
+  #intro.gone{ opacity:0; pointer-events:none; }
+  .magic{
+    position:relative; margin:0; padding:24px;
+    font-family:"Rubik",sans-serif; font-weight:500;
+    font-size:clamp(1.5rem, 5vw, 3.2rem); line-height:1.28; text-align:center;
+  }
+  .magic .line{
+    display:block; white-space:nowrap;
+    background:linear-gradient(to right, #ffe08a, #ff9e3d, #ff6f91, #ffd76a, #ffe08a);
+    background-size:200%;
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
+    animation:pan 4s linear infinite;
+  }
+  @keyframes pan{ from{ background-position:0 } to{ background-position:-200% } }
+  .spark{ position:absolute; width:26px; height:26px; color:#ffe08a;
+    animation:twk 1.6s ease-in-out infinite; filter:drop-shadow(0 0 6px rgba(255,200,90,.8)); }
+  .spark svg{ width:100%; height:100%; fill:currentColor; animation:spin 3.2s linear infinite; }
+  @keyframes twk{ 0%,100%{ transform:scale(0) } 50%{ transform:scale(1) } }
+  @keyframes spin{ to{ transform:rotate(360deg) } }
 
-*{ box-sizing:border-box; }
-[hidden]{ display:none !important; }
-
-html,body{ height:100%; }
-body{
-  margin:0; min-height:100%;
-  background: var(--bg);
-  color:#fff;
-  font-family:"Helvetica Neue",Arial,sans-serif;
-  overflow:hidden;
-}
-
-/* =========================================================
-   ESCENAS
-   ========================================================= */
-.scenes{ position:fixed; inset:0; z-index:2; }
-.scene{
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  opacity:0; visibility:hidden;
-  transition: opacity .55s ease, filter .55s ease;
-  will-change: opacity, filter;
-}
-.scene.active{ opacity:1; visibility:visible; }
-.scene.blurring{ filter: blur(18px) brightness(1.5); opacity:0; }
-
-/* lienzo de la composición floral */
-.bloom{ position:absolute; inset:0; width:100%; height:100%; display:block; }
-
-/* =========================================================
-   LÁMPARA + CORDÓN  (centrada)
-   ========================================================= */
-.lamp-zone{
-  position:fixed; z-index:6; inset:0;
-  display:flex; justify-content:center; align-items:flex-start;
-  pointer-events:none;
-}
-.lamp{
-  margin-top: clamp(24px, 10vh, 120px);
-  width:160px;
-  filter:drop-shadow(0 6px 24px rgba(0,0,0,.7));
-  transition: opacity .6s ease, filter .4s ease;
-}
-.lamp.on{ filter:drop-shadow(0 0 55px rgba(255,199,90,.8)); }
-.lamp.hidden{ opacity:0; }
-.lamp .bulb-glow{ opacity:0; transition:opacity .4s ease; }
-.lamp.on .bulb-glow{ opacity:1; }
-
-/* canvas del cordón (cuerda Verlet) */
-#ropeCanvas{ position:fixed; inset:0; z-index:7; pointer-events:none; }
-
-/* pista */
-.hint{
-  position:fixed; z-index:8; left:0; right:0; top: 40%;
-  text-align:center; color:var(--glow);
-  font-size:.8rem; letter-spacing:.14em; text-transform:uppercase;
-  opacity:0; animation: hintIn 1s ease 1.5s forwards, hintPulse 2.4s ease-in-out 2.5s infinite;
-  pointer-events:none; text-shadow:0 0 12px rgba(0,0,0,.8);
-}
-@keyframes hintIn{ to{ opacity:.85; } }
-@keyframes hintPulse{ 0%,100%{ transform:translateY(0); opacity:.85 } 50%{ transform:translateY(8px); opacity:.5 } }
-
-/* =========================================================
-   DESTELLO DE TRANSICIÓN (cortina de luz naranja-amarilla)
-   ========================================================= */
-#flash{
-  position:fixed; inset:0; z-index:9; pointer-events:none;
-  background: radial-gradient(circle at var(--fx,50%) var(--fy,30%),
-              var(--glow-core) 0%, var(--glow-hot) 18%,
-              var(--glow) 40%, rgba(255,120,20,.25) 60%, rgba(255,120,20,0) 75%);
-  opacity:0; transform:scale(.15); transform-origin: var(--fx,50%) var(--fy,30%);
-}
-
-@media (prefers-reduced-motion:reduce){
-  *{ animation:none !important; }
-  .scene{ transition:opacity .2s linear; }
-}
+  .tag{
+    position:fixed; left:0; right:0; bottom:22px; text-align:center; z-index:11;
+    font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+    opacity:.5; pointer-events:none; text-shadow:0 0 10px #000; color:#ffb64a;
+  }

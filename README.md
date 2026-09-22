@@ -1,49 +1,51 @@
-# 🌼 Proyecto Flor Primaveral — base limpia
+# 🌸 Proyecto Flor Primaveral
 
-Experiencia web para el **Día de la Primavera (21 de setiembre)**.
-La navegación entre escenas se hace **jalando el cordón de una lámpara**:
-al jalarlo, la luz se enciende, todo se difumina en un destello cálido
-y aparece la siguiente escena.
+Experiencia web animada para el **Día de la Primavera**. Sobre fondo negro,
+un mensaje aparece en letra estilizada y se transforma en una **flor hecha de
+partículas**, con luces, hojas neón y un fondo de auras suaves.
 
-> Esta es la **base**: trae solo el motor (lámpara + cordón + transiciones).
-> La flor, el mensaje y los efectos los agregas tú.
+## ▶️ Cómo verlo
+
+Abre `index.html` en el navegador (doble clic). No necesita internet salvo
+para las tipografías (Google Fonts); sin conexión usa fuentes de respaldo.
+
+## 🎬 Secuencia
+
+1. **Intro (~6 s):** mensaje *"Un regalito para usted"* en letra Rubik con
+   degradado cálido deslizándose y estrellitas titilando. Luego se difumina.
+2. **"Feliz Primavera"** dibujado con partículas.
+3. **La flor:** las partículas se reacomodan formando una **rosa** de pétalos.
+   - Color que **late** entre dos versiones de naranja (profundidad).
+   - **Anillo de luz** alrededor del centro + **orbe** de partículas orbitando.
+   - **Hojas neón** que se dibujan y desvanecen alrededor (verde/morado/rosa).
+   - **Fondo bokeh** de auras naranjas que flotan suave (aparece con la flor).
+   - Reacciona al **cursor**.
 
 ## 🗂️ Estructura
 
 ```
 PROYECTO-FLOR-PRIMAVERAL/
-├── index.html        → escenas (con lugares marcados para tu contenido)
-├── css/styles.css    → tema visual + base de la lámpara/transición
-├── js/main.js        → motor: cordón (Verlet) + cortina de luz
+├── index.html        → estructura + intro
+├── css/styles.css    → estilos (fondo, intro, tipografías)
+├── js/main.js        → todos los efectos en canvas
 └── README.md
 ```
 
-## 🧩 Dónde poner tus cosas
+## 🧠 Técnicas usadas (para aprender)
 
-- **Mensaje y flor:** en `index.html`, dentro de cada
-  `<section class="scene">`. La escena 1 ya tiene un contenedor
-  `<div class="flor-slot" id="flor">` listo para tu flor.
-  Puedes agregar o quitar `<section>` libremente: el JS se adapta
-  al número de escenas.
-- **Efectos por escena:** en `js/main.js`, hasta abajo, está la
-  función `onSceneEnter(i, scene)` marcada con **▼ TU ZONA ▼**.
-  Se ejecuta cada vez que una escena entra en pantalla; ahí animas
-  tu flor, tu texto, lanzas partículas, cambias el fondo, etc.
-- **Colores:** en `css/styles.css`, las variables `--glow`, `--script`,
-  `--bg`, etc. al inicio (`:root`).
+- **Partículas por muestreo de forma:** se dibuja el texto / la rosa en un
+  lienzo oculto, se leen sus píxeles y cada uno se vuelve el objetivo de una
+  partícula → así "dibujan" cualquier silueta.
+- **Mezcla aditiva** (`globalCompositeOperation = "lighter"`) para el brillo.
+- **Hojas neón** dibujadas trazo a trazo (contorno + nervaduras) con reveal
+  progresivo y desvanecido.
+- **Fondo bokeh**: degradados radiales grandes que vagan y cambian de tono.
 
-## 🧠 Lo que ya trae el motor (para aprender)
+## 🔧 Pendiente / ideas
 
-- **Cuerda Verlet:** el cordón es una cadena de puntos. Cada punto
-  recuerda dónde estaba antes; la diferencia "ahora − antes" es su
-  velocidad, así la gravedad y el rebote salen naturales. Luego se
-  aplican *restricciones de distancia* para que parezca una cuerda.
-- **Cortina de luz:** al jalar, un `radial-gradient` se expande desde
-  la lámpara (Web Animations API) y, con la luz cubriendo todo, se
-  cambia de escena por detrás.
-- **Ambiente:** partículas cálidas en un canvas de fondo.
-- **Accesibilidad:** respeta `prefers-reduced-motion` y funciona con
-  **Espacio/Enter**.
+- Integrar la **lámpara con cordón** (física Verlet) como disparador: jalar el
+  cordón → destello → arranca la secuencia. (El motor del cordón ya se
+  desarrolló antes y puede reincorporarse.)
 
 ---
 Hecho con cariño 🌻
