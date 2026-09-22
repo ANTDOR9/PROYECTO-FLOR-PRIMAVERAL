@@ -1,29 +1,16 @@
 /* =========================================================
-   PROYECTO FLOR PRIMAVERAL — hoja de estilos
-   Tema único: "crepúsculo de primavera" (fondo cálido oscuro
-   para que el brillo de la lámpara luzca).
+   PROYECTO FLOR PRIMAVERAL — estilos
+   PRUEBA: fondo negro + glow naranja-amarillo al jalar,
+   lámpara centrada, sin texto. Dos escenas:
+     0) lámpara centrada
+     1) composición floral (cabeza + polen)
    ========================================================= */
 
 :root{
-  /* --- paleta --- */
-  --bg:        #17121f;   /* noche ciruela */
-  --bg-2:      #221a2e;   /* segundo plano */
-  --ink:       #f4ead2;   /* texto cálido crema */
-  --ink-soft:  #cbb9a0;
-  --script:    #ffcf6b;   /* titulares */
-  --glow:      #ffd88a;   /* luz cálida de la lámpara */
-  --glow-hot:  #ffbf5c;
-  --petal:     #ffd12e;
-  --petal-deep:#f2a11c;
-  --leaf:      #6fae4a;
-  --leaf-deep: #3f7a2b;
-  --basket:    #b9772f;
-  --basket-deep:#8a5620;
-
-  /* --- medidas --- */
-  --gutter: clamp(16px, 5vw, 64px);
-  --maxw: 760px;
-
+  --bg:        #000000;      /* negro */
+  --glow:      #ffb64a;      /* naranja cálido */
+  --glow-hot:  #ffd77a;      /* amarillo brillante */
+  --glow-core: #fff0c8;      /* corazón del destello */
   color-scheme: dark;
 }
 
@@ -32,17 +19,12 @@
 
 html,body{ height:100%; }
 body{
-  margin:0;
-  min-height:100%;
-  background:
-    radial-gradient(140% 120% at 50% -10%, var(--bg-2) 0%, var(--bg) 60%);
-  color:var(--ink);
-  font-family:"Georgia","Times New Roman",serif;
-  overflow:hidden;               /* la navegación es por escenas, no por scroll */
+  margin:0; min-height:100%;
+  background: var(--bg);
+  color:#fff;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  overflow:hidden;
 }
-
-/* estrellitas/polvo ambiente */
-#dust{ position:fixed; inset:0; pointer-events:none; z-index:1; }
 
 /* =========================================================
    ESCENAS
@@ -50,129 +32,60 @@ body{
 .scenes{ position:fixed; inset:0; z-index:2; }
 .scene{
   position:absolute; inset:0;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  text-align:center;
-  padding: var(--gutter);
+  display:flex; align-items:center; justify-content:center;
   opacity:0; visibility:hidden;
-  transition: opacity .5s ease, filter .5s ease;
+  transition: opacity .55s ease, filter .55s ease;
   will-change: opacity, filter;
 }
 .scene.active{ opacity:1; visibility:visible; }
-.scene .inner{ max-width:var(--maxw); }
+.scene.blurring{ filter: blur(18px) brightness(1.5); opacity:0; }
 
-/* durante la transición: todo se difumina */
-.scene.blurring{ filter: blur(14px) brightness(1.6); opacity:0; }
-
-/* tipografía de escena */
-.eyebrow{
-  text-transform:uppercase; letter-spacing:.28em; font-size:.72rem;
-  color:var(--glow); opacity:.8; margin:0 0 14px;
-  font-family:"Helvetica Neue",Arial,sans-serif;
-}
-.title{
-  font-size:clamp(2.2rem, 7vw, 4.4rem); line-height:1.02; margin:0;
-  color:var(--script); font-weight:400; text-wrap:balance;
-  text-shadow:0 0 30px rgba(255,207,107,.18);
-}
-.title em{ font-style:italic; color:var(--petal); }
-.lead{
-  margin:18px auto 0; max-width:52ch;
-  font-size:clamp(1rem,2.6vw,1.3rem); line-height:1.6;
-  color:var(--ink-soft); font-style:italic; text-wrap:pretty;
-}
+/* lienzo de la composición floral */
+.bloom{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
 /* =========================================================
-   RAMO EN CANASTA (escena 1)
-   ========================================================= */
-.bouquet{ position:relative; width:min(460px,86vw); height:min(360px,42vh); margin:6px auto 0; }
-.flower{ position:absolute; transform-origin:bottom center;
-  animation: sway var(--dur,5s) ease-in-out infinite; animation-delay:var(--d,0s); }
-@keyframes sway{ 0%,100%{transform:rotate(var(--tilt,0deg))}
-  50%{transform:rotate(calc(var(--tilt,0deg) + var(--swing,3deg)))} }
-.stem{ position:absolute; left:50%; bottom:0; width:7px; height:var(--stem,150px);
-  transform:translateX(-50%); border-radius:6px;
-  background:linear-gradient(var(--leaf),var(--leaf-deep)); }
-.head{ position:absolute; left:50%; transform:translateX(-50%);
-  width:var(--size,110px); height:var(--size,110px);
-  animation:bob 4.5s ease-in-out infinite; animation-delay:var(--d,0s); }
-@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}
-  50%{transform:translateX(-50%) translateY(-6px)}}
-.petals{ position:absolute; inset:0; animation:spin var(--spin,26s) linear infinite; }
-@keyframes spin{ to{ transform:rotate(360deg); } }
-.petal{ position:absolute; top:50%; left:50%; width:24%; height:46%;
-  border-radius:50% 50% 50% 50%/60% 60% 40% 40%; transform-origin:50% 100%;
-  box-shadow: inset 0 -6px 8px rgba(0,0,0,.12); }
-.core{ position:absolute; top:50%; left:50%; width:38%; height:38%;
-  transform:translate(-50%,-50%); border-radius:50%;
-  background:radial-gradient(circle at 35% 35%, #a9660f, #6b3f0e);
-  box-shadow: inset 0 4px 8px rgba(0,0,0,.3), 0 0 22px rgba(255,190,80,.25); }
-.basket{ position:absolute; left:50%; bottom:-6px; transform:translateX(-50%);
-  width:min(280px,78%); height:120px; z-index:5;
-  filter:drop-shadow(0 14px 16px rgba(0,0,0,.4)); }
-.basket .rim{ position:absolute; top:0; left:-4%; width:108%; height:28px;
-  background:linear-gradient(#d99a4e,var(--basket)); border-radius:16px; }
-.basket .body{ position:absolute; top:22px; left:0; width:100%; height:96px;
-  background:repeating-linear-gradient(90deg,var(--basket) 0 13px,var(--basket-deep) 13px 26px);
-  border-radius:0 0 46% 46%/0 0 80% 80%; }
-.basket .handle{ position:absolute; top:-50px; left:50%; transform:translateX(-50%);
-  width:64%; height:78px; border:11px solid var(--basket); border-bottom:none;
-  border-radius:50% 50% 0 0; z-index:-1; }
-
-/* =========================================================
-   LÁMPARA + CORDÓN (elemento de navegación, siempre visible)
+   LÁMPARA + CORDÓN  (centrada)
    ========================================================= */
 .lamp-zone{
-  position:fixed; z-index:6;
-  right: clamp(12px, 5vw, 60px);
-  top:0; bottom:0; width:200px;
-  pointer-events:none;                 /* solo el cordón captura eventos */
+  position:fixed; z-index:6; inset:0;
+  display:flex; justify-content:center; align-items:flex-start;
+  pointer-events:none;
 }
 .lamp{
-  position:absolute; top: clamp(10px, 3vh, 40px); right:0;
-  width:150px; filter:drop-shadow(0 6px 20px rgba(0,0,0,.5));
-  transition: filter .4s ease;
+  margin-top: clamp(24px, 10vh, 120px);
+  width:160px;
+  filter:drop-shadow(0 6px 24px rgba(0,0,0,.7));
+  transition: opacity .6s ease, filter .4s ease;
 }
-.lamp.on{ filter:drop-shadow(0 0 40px rgba(255,216,138,.65)); }
-.lamp .bulb-glow{
-  opacity:0; transition:opacity .4s ease;
-}
+.lamp.on{ filter:drop-shadow(0 0 55px rgba(255,199,90,.8)); }
+.lamp.hidden{ opacity:0; }
+.lamp .bulb-glow{ opacity:0; transition:opacity .4s ease; }
 .lamp.on .bulb-glow{ opacity:1; }
 
-/* canvas donde se dibuja el cordón (cuerda Verlet) */
+/* canvas del cordón (cuerda Verlet) */
 #ropeCanvas{ position:fixed; inset:0; z-index:7; pointer-events:none; }
 
-/* pista para el usuario */
+/* pista */
 .hint{
-  position:fixed; z-index:8;
-  right: clamp(20px, 7vw, 90px); top: 46%;
-  color:var(--glow); font-family:"Helvetica Neue",Arial,sans-serif;
-  font-size:.8rem; letter-spacing:.05em; text-align:right;
-  opacity:.0; animation: hintIn 1s ease 1.5s forwards, hintPulse 2.4s ease-in-out 2.5s infinite;
-  pointer-events:none; text-shadow:0 0 12px rgba(0,0,0,.6);
+  position:fixed; z-index:8; left:0; right:0; top: 40%;
+  text-align:center; color:var(--glow);
+  font-size:.8rem; letter-spacing:.14em; text-transform:uppercase;
+  opacity:0; animation: hintIn 1s ease 1.5s forwards, hintPulse 2.4s ease-in-out 2.5s infinite;
+  pointer-events:none; text-shadow:0 0 12px rgba(0,0,0,.8);
 }
-@keyframes hintIn{ to{ opacity:.9; } }
-@keyframes hintPulse{ 0%,100%{ transform:translateY(0); opacity:.9 } 50%{ transform:translateY(6px); opacity:.55 } }
+@keyframes hintIn{ to{ opacity:.85; } }
+@keyframes hintPulse{ 0%,100%{ transform:translateY(0); opacity:.85 } 50%{ transform:translateY(8px); opacity:.5 } }
 
 /* =========================================================
-   DESTELLO DE TRANSICIÓN (la cortina de luz)
+   DESTELLO DE TRANSICIÓN (cortina de luz naranja-amarilla)
    ========================================================= */
 #flash{
   position:fixed; inset:0; z-index:9; pointer-events:none;
-  background: radial-gradient(circle at var(--fx,85%) var(--fy,20%),
-              rgba(255,238,200,.98) 0%, rgba(255,216,138,.85) 22%,
-              rgba(255,191,92,.4) 45%, rgba(255,191,92,0) 70%);
-  opacity:0; transform:scale(.2); transform-origin: var(--fx,85%) var(--fy,20%);
+  background: radial-gradient(circle at var(--fx,50%) var(--fy,30%),
+              var(--glow-core) 0%, var(--glow-hot) 18%,
+              var(--glow) 40%, rgba(255,120,20,.25) 60%, rgba(255,120,20,0) 75%);
+  opacity:0; transform:scale(.15); transform-origin: var(--fx,50%) var(--fy,30%);
 }
-
-/* progreso de escenas (puntitos abajo) */
-.dots{
-  position:fixed; z-index:8; left:0; right:0; bottom: clamp(16px,4vh,34px);
-  display:flex; gap:10px; justify-content:center; pointer-events:none;
-}
-.dots i{ width:8px; height:8px; border-radius:50%; background:rgba(244,234,210,.25);
-  transition: all .4s ease; }
-.dots i.on{ background:var(--glow); box-shadow:0 0 12px var(--glow); transform:scale(1.25); }
 
 @media (prefers-reduced-motion:reduce){
   *{ animation:none !important; }

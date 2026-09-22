@@ -1,46 +1,49 @@
-# 🌼 Proyecto Flor Primaveral
+# 🌼 Proyecto Flor Primaveral — base limpia
 
-Una experiencia web interactiva para el **Día de la Primavera (21 de setiembre)**.
-La navegación entre escenas se hace **jalando el cordón de una lámpara**: al jalarlo,
-la luz se enciende, todo se difumina en un destello cálido y aparece la siguiente escena.
+Experiencia web para el **Día de la Primavera (21 de setiembre)**.
+La navegación entre escenas se hace **jalando el cordón de una lámpara**:
+al jalarlo, la luz se enciende, todo se difumina en un destello cálido
+y aparece la siguiente escena.
 
-## ✨ Cómo se usa
-
-1. Abre `index.html` en el navegador (doble clic).
-2. Acerca el mouse (o el dedo) al **nudo del cordón** de la lámpara, a la derecha.
-3. **Jálalo hacia abajo** y suéltalo. Si lo jalaste lo suficiente, se enciende la luz
-   y pasa a la siguiente escena.
-   - También puedes usar la tecla **Espacio** o **Enter**.
+> Esta es la **base**: trae solo el motor (lámpara + cordón + transiciones).
+> La flor, el mensaje y los efectos los agregas tú.
 
 ## 🗂️ Estructura
 
 ```
 PROYECTO-FLOR-PRIMAVERAL/
-├── index.html        → estructura y escenas
-├── css/
-│   └── styles.css    → estilos y tema visual
-├── js/
-│   └── main.js       → física del cordón + transiciones
+├── index.html        → escenas (con lugares marcados para tu contenido)
+├── css/styles.css    → tema visual + base de la lámpara/transición
+├── js/main.js        → motor: cordón (Verlet) + cortina de luz
 └── README.md
 ```
 
-## 🧠 Técnicas que se usan (para aprender)
+## 🧩 Dónde poner tus cosas
 
-- **Cuerda Verlet:** el cordón es una cadena de puntos. Cada punto recuerda dónde
-  estaba el frame anterior; la diferencia entre "ahora" y "antes" es su velocidad,
-  así que la gravedad y el rebote salen naturales. Luego se aplican *restricciones de
-  distancia* para que los puntos no se separen y parezca una cuerda de verdad.
-- **Transición por cortina de luz:** al jalar, se expande un destello radial
-  (`radial-gradient` animado con la Web Animations API) desde la posición de la
-  lámpara; mientras la luz cubre la pantalla, se cambia de escena por detrás.
-- **Canvas de ambiente:** partículas cálidas flotando dan profundidad.
-- **Accesibilidad:** respeta `prefers-reduced-motion` y permite teclado.
+- **Mensaje y flor:** en `index.html`, dentro de cada
+  `<section class="scene">`. La escena 1 ya tiene un contenedor
+  `<div class="flor-slot" id="flor">` listo para tu flor.
+  Puedes agregar o quitar `<section>` libremente: el JS se adapta
+  al número de escenas.
+- **Efectos por escena:** en `js/main.js`, hasta abajo, está la
+  función `onSceneEnter(i, scene)` marcada con **▼ TU ZONA ▼**.
+  Se ejecuta cada vez que una escena entra en pantalla; ahí animas
+  tu flor, tu texto, lanzas partículas, cambias el fondo, etc.
+- **Colores:** en `css/styles.css`, las variables `--glow`, `--script`,
+  `--bg`, etc. al inicio (`:root`).
 
-## 🔧 Ideas para seguir mejorando
+## 🧠 Lo que ya trae el motor (para aprender)
 
-- Añadir sonido suave al encender la luz (un "click" + brillo).
-- Sumar más escenas (el arreglo de escenas en el HTML es todo lo que hay que tocar).
-- Transición de color de fondo distinta por escena.
+- **Cuerda Verlet:** el cordón es una cadena de puntos. Cada punto
+  recuerda dónde estaba antes; la diferencia "ahora − antes" es su
+  velocidad, así la gravedad y el rebote salen naturales. Luego se
+  aplican *restricciones de distancia* para que parezca una cuerda.
+- **Cortina de luz:** al jalar, un `radial-gradient` se expande desde
+  la lámpara (Web Animations API) y, con la luz cubriendo todo, se
+  cambia de escena por detrás.
+- **Ambiente:** partículas cálidas en un canvas de fondo.
+- **Accesibilidad:** respeta `prefers-reduced-motion` y funciona con
+  **Espacio/Enter**.
 
 ---
 Hecho con cariño 🌻

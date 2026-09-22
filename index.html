@@ -4,84 +4,50 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Flor Primaveral</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <!-- polvo/estrellas de ambiente -->
-  <canvas id="dust" aria-hidden="true"></canvas>
-
   <!-- ===================== ESCENAS ===================== -->
   <main class="scenes" id="scenes">
 
-    <!-- Escena 1: portada con ramo -->
-    <section class="scene active" data-scene="0">
-      <div class="inner">
-        <p class="eyebrow">21 de setiembre · primavera</p>
-        <h1 class="title">Una flor <em>para</em> otra flor</h1>
-        <div class="bouquet" id="bouquet"></div>
-      </div>
-    </section>
+    <!-- ESCENA 0: solo la lámpara centrada (fondo negro) -->
+    <section class="scene active" data-scene="0"></section>
 
-    <!-- Escena 2: mensaje -->
+    <!-- ESCENA 1: composición floral (cabeza arriba + polen abajo) -->
     <section class="scene" data-scene="1">
-      <div class="inner">
-        <p class="eyebrow">porque hoy florece todo</p>
-        <h2 class="title">La primavera <em>te</em> buscó a ti</h2>
-        <p class="lead">Dicen que las flores amarillas son pedacitos de sol.
-          Yo te las doy para que, donde estés, siempre te dé calorcito. 🌼</p>
-      </div>
-    </section>
-
-    <!-- Escena 3: cierre -->
-    <section class="scene" data-scene="2">
-      <div class="inner">
-        <p class="eyebrow">y colorín, colorado…</p>
-        <h2 class="title">Feliz día, <em>florecita</em></h2>
-        <p class="lead">Gracias por iluminar todo con solo estar.
-          Jala el cordón otra vez si quieres volver a empezar. 💛</p>
-      </div>
+      <canvas class="bloom" id="bloom"></canvas>
     </section>
 
   </main>
 
-  <!-- indicador de escenas -->
-  <div class="dots" id="dots" aria-hidden="true"></div>
-
   <!-- pista -->
   <p class="hint" id="hint">jala el cordón ↓</p>
 
-  <!-- ===================== LÁMPARA ===================== -->
+  <!-- ===================== LÁMPARA (centrada) ===================== -->
   <div class="lamp-zone" aria-hidden="true">
-    <!-- silueta de lámpara de mesa estilo "hongo" -->
     <svg class="lamp" id="lamp" viewBox="0 0 150 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- resplandor del foco (aparece al encender) -->
       <ellipse class="bulb-glow" cx="75" cy="70" rx="95" ry="85" fill="url(#g)"/>
       <defs>
         <radialGradient id="g" cx="50%" cy="50%" r="50%">
-          <stop offset="0%"  stop-color="#ffe9bf" stop-opacity="0.9"/>
-          <stop offset="45%" stop-color="#ffd88a" stop-opacity="0.35"/>
-          <stop offset="100%" stop-color="#ffd88a" stop-opacity="0"/>
+          <stop offset="0%"  stop-color="#fff0c8" stop-opacity="0.95"/>
+          <stop offset="45%" stop-color="#ffb64a" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#ffb64a" stop-opacity="0"/>
         </radialGradient>
         <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#efe7d6"/>
-          <stop offset="100%" stop-color="#cbb89a"/>
+          <stop offset="100%" stop-color="#b9a684"/>
         </linearGradient>
       </defs>
-      <!-- pantalla (domo) -->
       <path d="M15 78 C15 30 135 30 135 78 Z" fill="url(#shade)"/>
-      <!-- cuellito -->
       <rect x="70" y="78" width="10" height="14" rx="3" fill="#9c8b6e"/>
-      <!-- poste -->
       <rect x="72" y="90" width="6" height="86" rx="3" fill="#7d6f58"/>
-      <!-- base -->
-      <ellipse cx="75" cy="182" rx="34" ry="9" fill="#6a5d48"/>
-      <ellipse cx="75" cy="179" rx="34" ry="9" fill="#8a7a60"/>
+      <ellipse cx="75" cy="182" rx="34" ry="9" fill="#5a4f3d"/>
+      <ellipse cx="75" cy="179" rx="34" ry="9" fill="#7a6c54"/>
     </svg>
   </div>
 
-  <!-- canvas del cordón (cuerda con física) -->
+  <!-- canvas del cordón -->
   <canvas id="ropeCanvas" aria-hidden="true"></canvas>
 
   <!-- destello de transición -->
